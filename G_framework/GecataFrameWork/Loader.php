@@ -66,7 +66,7 @@ final class Loader
                 self::$namespaces[$namespace . '\\'] = $_path . DIRECTORY_SEPARATOR;
             } else {
                 //TODO
-                throw new \Exception('Nmespace directory read error' . $path);
+                throw new \Exception('Namespace directory read error' . $path);
             }
         } else {
             //TODO

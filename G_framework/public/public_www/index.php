@@ -7,9 +7,9 @@
  */
 error_reporting(E_ALL ^ E_NOTICE);
 include '../../GecataFrameWork/App.php';
-$app = GF\App::getInstance();
-$app->run();
 
-echo $app->getConfig()->app;
+$app = GF\App::getInstance();
+
+$app->run();
 
 

@@ -13,6 +13,7 @@ class App
 {
     private static $instance = null;
     private $config = null;
+    private $frontController = null;
 
     private function __construct()
     {
@@ -46,8 +47,14 @@ class App
         if ($this->config->getConfigFolder() == null) {
             $this->setConfigFolder('../Config');
         }
+        $this->frontController = \GF\FrontController::getInstance();
+
+        $this->frontController->dispatch();
     }
 
+    /**
+     * @return App|null
+     */
     public static function getInstance()
     {
         if (self::$instance == null) {

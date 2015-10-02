@@ -20,6 +20,9 @@ class Config
 
     }
 
+    /**
+     * @return ConfigFolder
+     */
     public function getConfigFolder()
     {
         return $this->_configFolder;
