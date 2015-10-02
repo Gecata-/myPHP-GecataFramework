@@ -6,3 +6,4 @@
  * Time: 11:48 ÷.
  */
 $cnf['name'] = 'Gecata';
+return $cnf;

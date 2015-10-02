@@ -36,6 +36,7 @@ final class Loader
         foreach (self::$namespaces as $k => $v) {
             if (strpos($class, $k) === 0) {
                 $classFile = realpath(substr_replace(str_replace('\\', DIRECTORY_SEPARATOR, $class), $v, 0, strlen($k)) . '.php');
+
                 if ($classFile && is_readable($classFile)) {
                     include $classFile;
                 } else {

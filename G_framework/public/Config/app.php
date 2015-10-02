@@ -7,3 +7,5 @@
  */
 $cnf['test']='ok1';
 $cnf['test1']='ok2';
+
+return $cnf;
