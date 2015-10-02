@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: gdimitrov
- * Date: 1.10.2015 ã.
- * Time: 13:11 ÷.
+ * Date: 1.10.2015 Ð³.
+ * Time: 13:11 Ñ‡.
  */
 
 namespace GF;
@@ -27,6 +27,10 @@ final class Loader
         self::loadClass($class);
     }
 
+    /**
+     * @param $class
+     * @throws \Exception
+     */
     public static function loadClass($class)
     {
         foreach (self::$namespaces as $k => $v) {
@@ -43,6 +47,11 @@ final class Loader
         }
     }
 
+    /**
+     * @param $namespace
+     * @param $path
+     * @throws \Exception
+     */
     public static function registerNamespace($namespace, $path)
     {
         $namespace = trim($namespace);
@@ -64,11 +73,17 @@ final class Loader
         }
     }
 
+    /**
+     * @return array
+     */
     public static function getNamespace()
     {
         return self::$namespaces;
     }
 
+    /**
+     * @param $namespace
+     */
     public static function removeNamespace($namespace)
     {
         unset(self::$namespaces[$namespace]);
