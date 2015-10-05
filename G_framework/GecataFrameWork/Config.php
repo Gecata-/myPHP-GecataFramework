@@ -42,8 +42,8 @@ class Config
             $this->_configArray = [];
             $this->_configFolder = $_configFolder . DIRECTORY_SEPARATOR;
             $ns = $this->app['namespaces'];
-            if(is_array($ns)){
-                \GF\Loader::registerNamespace($ns);
+            if (is_array($ns)) {
+                \GF\Loader::registerNamespaces($ns);
             }
         } else {
             throw new \Exception('Config directory read error:' . $configFolder);

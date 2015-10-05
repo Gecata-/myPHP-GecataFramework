@@ -7,5 +7,6 @@
  */
 $cnf['default_controller']='index2';
 $cnf['default_method']='index3';
+$cnf['namespaces']['Controllers'] = 'C:\wamp\www\G_framework\public\Controllers';
 
 return $cnf;

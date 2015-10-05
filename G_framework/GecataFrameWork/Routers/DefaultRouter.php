@@ -7,38 +7,11 @@
  * Time: 15:05 ч.
  */
 namespace GF\Routers;
-class DefaultRouter
+class DefaultRouter implements iRouter
 {
-    private $controller = null;
-    private $method = null;
-    private $params = [];
-
-    public function parse()
+    public function getURI()
     {
-        $uri = substr($_SERVER['PHP_SELF'], strlen($_SERVER['SCRIPT_NAME']) + 1);
-        $_params = explode('/', $uri);
-        if ($_params[0]) {
-            $this->controller = ucfirst($_params[0]);
-            if ($_params[1]) {
-                $this->method = $_params[1];
-                unset($_params[0], $_params[1]);
-                $this->params = array_values($_params);
-            }
-        }
+        return substr($_SERVER['PHP_SELF'], strlen($_SERVER['SCRIPT_NAME']) + 1);
     }
 
-    public function getController()
-    {
-        return $this->controller;
-    }
-
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-    public function getParams()
-    {
-        return $this->params;
-    }
 }

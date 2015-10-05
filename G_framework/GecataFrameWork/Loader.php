@@ -75,6 +75,21 @@ final class Loader
     }
 
     /**
+     * @param $arr
+     * @throws \Exception
+     */
+    public static function registerNamespaces($arr){
+        if(is_array($arr)){
+            foreach($arr as $key=>$val){
+                self::registerNamespace($key,$val);
+            }
+        }else{
+            //TODO
+            throw new \Exception('Invalid Namespace');
+        }
+    }
+
+    /**
      * @return array
      */
     public static function getNamespace()
