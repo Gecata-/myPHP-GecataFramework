@@ -3,33 +3,42 @@
 /**
  * Created by PhpStorm.
  * User: gdimitrov
- * Date: 2.10.2015 ã.
- * Time: 15:05 ÷.
+ * Date: 2.10.2015 Ð³.
+ * Time: 15:05 Ñ‡.
  */
 namespace GF\Routers;
 class DefaultRouter
 {
+    private $controller = null;
+    private $method = null;
+    private $params = [];
+
     public function parse()
     {
-        echo '<pre>' . print_r($_SERVER, true) . '</pre>';
-        $uri = substr(str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['PHP_SELF']),1);
-        echo $uri.'<br>';
-        $controller = null;
-        $method = null;
-        $params = explode('/',$uri);
-        if($params[0]){
-            $controller = ucfirst($params[0]);
-
-            if($params[1]) {
-                $method = $params[1];
-                unset($params[0], $params[1]);
-            }else{
-                $method = 'index';
+        $uri = substr($_SERVER['PHP_SELF'], strlen($_SERVER['SCRIPT_NAME']) + 1);
+        $_params = explode('/', $uri);
+        if ($_params[0]) {
+            $this->controller = ucfirst($_params[0]);
+            if ($_params[1]) {
+                $this->method = $_params[1];
+                unset($_params[0], $_params[1]);
+                $this->params = array_values($_params);
             }
-        }else{
-            $controller = 'index';
-            $method = 'index';
         }
-        echo $controller.'<br>'.$method;
+    }
+
+    public function getController()
+    {
+        return $this->controller;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
     }
 }

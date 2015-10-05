@@ -5,7 +5,7 @@
  * Date: 2.10.2015 ã.
  * Time: 11:09 ÷.
  */
-$cnf['test']='ok1';
-$cnf['test1']='ok2';
+$cnf['default_controller']='index2';
+$cnf['default_method']='index3';
 
 return $cnf;
