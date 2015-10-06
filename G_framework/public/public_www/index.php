@@ -10,6 +10,7 @@ include '../../GecataFrameWork/App.php';
 
 $app = GF\App::getInstance();
 
+$app->setRouter();
 $app->run();
 
 

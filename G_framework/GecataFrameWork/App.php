@@ -14,6 +14,8 @@ class App
     private static $instance = null;
     private $config = null;
     private $frontController = null;
+    private $router = null;
+
 
     private function __construct()
     {
@@ -22,6 +24,26 @@ class App
         $this->config = \GF\Config::getInstance();
     }
 
+    /**
+     * @return null
+     */
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    /**
+     * @param null $router
+     */
+    public function setRouter($router=null)
+    {
+        $this->router = $router;
+    }
+
+    /**
+     * @param $path
+     * @throws \Exception
+     */
     public function setConfigFolder($path)
     {
         $this->config->setConfigFolder($path);
@@ -38,17 +60,31 @@ class App
     /**
      * @return \GF\Config
      */
-    public function getConfig(){
+    public function getConfig()
+    {
         return $this->config;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function run()
     {
         if ($this->config->getConfigFolder() == null) {
             $this->setConfigFolder('../Config');
         }
         $this->frontController = \GF\FrontController::getInstance();
-
+        if ($this->router instanceof \GF\Routers\iRouter) {
+            $this->frontController->setRouter($this->router);
+        } else if ($this->router == 'JsonRPCRouter') {
+            //TODO fix it when RPC is done
+            $this->frontController->setRouter(new \GF\Routers\DefaultRouter());
+        } else if ($this->router == 'CLIRouter') {
+            //TODO fix it when CLI is done
+            $this->frontController->setRouter(new \GF\Routers\DefaultRouter());
+        } else {
+            $this->frontController->setRouter(new \GF\Routers\DefaultRouter());
+        }
         $this->frontController->dispatch();
     }
 
