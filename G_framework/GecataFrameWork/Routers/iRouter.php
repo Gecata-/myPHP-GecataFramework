@@ -1,0 +1,13 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: gdimitrov
+ * Date: 5.10.2015 ã.
+ * Time: 14:32 ÷.
+ */
+namespace GF\Routers;
+
+interface iRouter
+{
+    public function getURI();
+}
