@@ -15,6 +15,7 @@ class App
     private $config = null;
     private $frontController = null;
     private $router = null;
+    private $dbConnections =[];
 
 
     private function __construct()
@@ -22,6 +23,9 @@ class App
         \GF\Loader::registerNamespace('GF', dirname(__FILE__) . DIRECTORY_SEPARATOR);
         \GF\Loader::registerAutoload();
         $this->config = \GF\Config::getInstance();
+        if ($this->config->getConfigFolder() == null) {
+            $this->setConfigFolder('../Config');
+        }
     }
 
     /**
@@ -86,6 +90,30 @@ class App
             $this->frontController->setRouter(new \GF\Routers\DefaultRouter());
         }
         $this->frontController->dispatch();
+    }
+    /**
+     * 
+     * @param type $connection
+     * @return \PDO
+     * @throws \Exception
+     */
+    public function getConnection($connection ='default'){
+        if(!$connection){
+            //TODO
+            throw new \Exception('No connection identifier provided', 500);
+        }
+        if($this->dbConnections[$connection]){
+            return $this->dbConnections[$connection];
+        }   
+        echo $cnf = $this->getConfig()->database;
+        if(!$cnf[$connection]){
+            //TODO
+            throw new \Exception('No valid connection identificator is provided',500);
+        }
+        $dbh = new \PDO($cnf[$connection]['connection_uri'],$cnf[$connection]['username'],
+                $cnf[$connection]['pass'],$cnf[$connection]['pdo_options']);
+        $this->dbConnections = $dbh;
+        print_r ($dbh);
     }
 
     /**
