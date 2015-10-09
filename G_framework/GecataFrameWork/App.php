@@ -6,20 +6,20 @@
  * Date: 1.10.2015 г.
  * Time: 13:04 ч.
  */
+
 namespace GF;
+
 include 'Loader.php';
 
-class App
-{
+class App {
+
     private static $instance = null;
     private $config = null;
     private $frontController = null;
     private $router = null;
-    private $dbConnections =[];
+    private $dbConnections = [];
 
-
-    private function __construct()
-    {
+    private function __construct() {
         \GF\Loader::registerNamespace('GF', dirname(__FILE__) . DIRECTORY_SEPARATOR);
         \GF\Loader::registerAutoload();
         $this->config = \GF\Config::getInstance();
@@ -31,16 +31,14 @@ class App
     /**
      * @return null
      */
-    public function getRouter()
-    {
+    public function getRouter() {
         return $this->router;
     }
 
     /**
      * @param null $router
      */
-    public function setRouter($router=null)
-    {
+    public function setRouter($router = null) {
         $this->router = $router;
     }
 
@@ -48,35 +46,28 @@ class App
      * @param $path
      * @throws \Exception
      */
-    public function setConfigFolder($path)
-    {
+    public function setConfigFolder($path) {
         $this->config->setConfigFolder($path);
     }
 
     /**
      * @return GF\config folder
      */
-    public function getConfigFolder()
-    {
+    public function getConfigFolder() {
         return $this->config->_configFolder;
     }
 
     /**
      * @return \GF\Config
      */
-    public function getConfig()
-    {
+    public function getConfig() {
         return $this->config;
     }
 
     /**
      * @throws \Exception
      */
-    public function run()
-    {
-        if ($this->config->getConfigFolder() == null) {
-            $this->setConfigFolder('../Config');
-        }
+    public function run() {
         $this->frontController = \GF\FrontController::getInstance();
         if ($this->router instanceof \GF\Routers\iRouter) {
             $this->frontController->setRouter($this->router);
@@ -91,39 +82,39 @@ class App
         }
         $this->frontController->dispatch();
     }
+
     /**
      * 
      * @param type $connection
      * @return \PDO
      * @throws \Exception
      */
-    public function getConnection($connection ='default'){
-        if(!$connection){
+    public function getDBConnection($connection = 'default') {
+        if (!$connection) {
             //TODO
             throw new \Exception('No connection identifier provided', 500);
         }
-        if($this->dbConnections[$connection]){
+        if ($this->dbConnections[$connection]) {
             return $this->dbConnections[$connection];
-        }   
-        echo $cnf = $this->getConfig()->database;
-        if(!$cnf[$connection]){
-            //TODO
-            throw new \Exception('No valid connection identificator is provided',500);
         }
-        $dbh = new \PDO($cnf[$connection]['connection_uri'],$cnf[$connection]['username'],
-                $cnf[$connection]['pass'],$cnf[$connection]['pdo_options']);
+        echo $cnf = $this->getConfig()->database;
+        if (!$cnf[$connection]) {
+            //TODO
+            throw new \Exception('No valid connection identificator is provided', 500);
+        }
+        $dbh = new \PDO($cnf[$connection]['connection_uri'], $cnf[$connection]['username'], $cnf[$connection]['pass'], $cnf[$connection]['pdo_options']);
         $this->dbConnections = $dbh;
-        print_r ($dbh);
+        return $dbh;
     }
 
     /**
      * @return App|null
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (self::$instance == null) {
             self::$instance = new App();
         }
         return self::$instance;
     }
+
 }

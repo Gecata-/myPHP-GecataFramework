@@ -1,6 +1,6 @@
 <?php
 
-$cnf['default']['connection_uri']='mysql:host=localhost;dbname=test';
+$cnf['default']['connection_uri']='mysql:host=localhost;dbname=telerik_php';
 $cnf['default']['username']='Gecata';
 $cnf['default']['pass']='1234';
 $cnf['default']['pdo_options'][PDO::MYSQL_ATTR_INIT_COMMAND]="SET NAMES 'UTF8'";
