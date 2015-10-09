@@ -91,6 +91,7 @@ class FrontController
               $this->controller = strtolower($rc['controllers'][$this->controller]['to']);
             }
         }
+        //TODO Fix it
         $f = $this->namespace . '\\' . ucfirst($this->controller);
         $newController = new $f();
         $newController->{$this->method}();
