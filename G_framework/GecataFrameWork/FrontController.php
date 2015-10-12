@@ -95,7 +95,6 @@ class FrontController
         $f = $this->namespace . '\\' . ucfirst($this->controller);
         $newController = new $f();
         $newController->{$this->method}();
-        
     }
 
     public function getDefaultController()
