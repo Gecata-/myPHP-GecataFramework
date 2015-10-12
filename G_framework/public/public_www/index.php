@@ -16,10 +16,9 @@ $db=new \GF\DB\SimpleDB();
 
 
 $a=$db->prepare('SELECT * FROM users WHERE user_ID = ?',array(3))->execute()->fetchAllAssoc();
-print_r($a);
 
 $app->run();
-$app->getSession()->counter+=1;
-echo $app->getSession()->counter;
+$app->getSession()->counter2+=1;
+echo $app->getSession()->counter2;
 
 

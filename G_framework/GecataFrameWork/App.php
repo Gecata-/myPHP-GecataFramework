@@ -86,11 +86,19 @@ class App {
         $_sess = $this->config->app['session'];
         if ($_sess['autostart']) {
             if ($_sess['type'] == 'native') {
-            $_s= new \GF\Sessions\NativeSession($_sess['name'], $_sess['lifetime'], $_sess['path'], $_sess['domain'], $_sess['secure']);
+                $_s = new \GF\Sessions\NativeSession($_sess['name'], $_sess['lifetime'],
+                        $_sess['path'], $_sess['domain'], $_sess['secure']);
+            } else if ($_sess['type'] == 'database') {
+                $_s = new \GF\Sessions\DBSession($_sess['dbConnection'], $_sess['name'],
+                        $_sess['dbTable'], $_sess['lifetime'], $_sess['path'], $_sess['domain'], $_sess['secure']);
+            }
+            else{
+                //TODO
+                throw new Exception('No valid session',500);
             }
             $this->setSession($_s);
         }
-        
+
         $this->frontController->dispatch();
     }
 
@@ -120,13 +128,13 @@ class App {
         if ($this->dbConnections[$connection]) {
             return $this->dbConnections[$connection];
         }
-        echo $cnf = $this->getConfig()->database;
+        $cnf = $this->getConfig()->database;
         if (!$cnf[$connection]) {
             //TODO
             throw new \Exception('No valid connection identificator is provided', 500);
         }
         $dbh = new \PDO($cnf[$connection]['connection_uri'], $cnf[$connection]['username'], $cnf[$connection]['pass'], $cnf[$connection]['pdo_options']);
-        $this->dbConnections = $dbh;
+        $this->dbConnections[$connection] = $dbh;
         return $dbh;
     }
 
@@ -138,6 +146,12 @@ class App {
             self::$instance = new App();
         }
         return self::$instance;
+    }
+    
+    public function __destruct() {
+        if($this->session !=null){
+            $this->session->saveSession();
+        }
     }
 
 }
