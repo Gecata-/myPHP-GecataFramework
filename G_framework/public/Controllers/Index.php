@@ -12,10 +12,7 @@ namespace Controllers;
 class Index {
 
     public function index2() {
-        $view = \GF\View::getInstance();
-        $view->appendToLayout('body','product.index');
-        $view->appendToLayout('test','index');
-        $view->display('layouts.default2', array('test'=>array(1,2,3,4,5,6)),false);
+        echo 'Hello from <br><h3>Controller\Admin\index2</h3>';
     }
 
 }
