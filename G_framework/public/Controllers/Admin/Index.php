@@ -10,6 +10,6 @@ namespace Controllers\Admin;
 class Index
 {
     public function index2(){
-        echo 'Hello from <br><h3>Controller\Admin\index2</h3>';
+        echo 'Controller\admin';
     }
 }
