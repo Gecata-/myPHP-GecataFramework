@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: gdimitrov
- * Date: 5.10.2015 ã.
- * Time: 14:41 ÷.
+ * Date: 5.10.2015 ï¿½.
+ * Time: 14:41 ï¿½.
  */
 $cnf['admin']['namespace']= 'Controllers';
 

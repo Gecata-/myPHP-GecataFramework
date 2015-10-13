@@ -61,7 +61,6 @@ class View {
                 }
             }
         }
-        
         if ($returnAsString) {
             return $this->includeFile($name);
         } else {
@@ -92,7 +91,7 @@ class View {
             include $___fl;
             return ob_get_clean();
         } else {
-            throw new \Exception('View ' . $file . ' cannot be included', 500);
+            throw new \Exception('View ' . $file . ' cannot be included. File searched at: '.$___fl.' !', 500);
         }
     }
 

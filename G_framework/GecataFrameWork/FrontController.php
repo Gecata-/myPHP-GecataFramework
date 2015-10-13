@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: gdimitrov
@@ -8,44 +9,43 @@
 
 namespace GF;
 
+class FrontController {
 
-class FrontController
-{
     private static $_instance = null;
     private $namespace = null;
     private $controller = null;
+    /**
+     *
+     * @var \GF\Routers\iRouter
+     */
     private $method = null;
-    private $router =null;
+    private $router = null;
 
-    private function __construct()
-    {
+    private function __construct() {
+        
     }
+
     /**
      * @return null
      */
-    public function getRouter()
-    {
+    public function getRouter() {
         return $this->router;
     }
 
     /**
      * @param null $router
      */
-    public function setRouter(\GF\Routers\iRouter $router)
-    {
+    public function setRouter(\GF\Routers\iRouter $router) {
         $this->router = $router;
     }
-
-
 
     /**
      * @throws \Exception
      */
-    public function dispatch()
-    {
-        if($this->router==null){
+    public function dispatch() {
+        if ($this->router == null) {
             //TODO
-            throw new \Exception('No valid router found',500);
+            throw new \Exception('No valid router found', 500);
         }
         $_uri = $this->router->getURI();
         $routes = \GF\App::getInstance()->getConfig()->routes;
@@ -70,12 +70,14 @@ class FrontController
             //TODO
             throw new \Exception('Default router is missing', 500);
         }
-
+        $input = \GF\InputData::getInstance();
         $params = explode('/', $_uri);
         if ($params[0]) {
             $this->controller = strtolower($params[0]);
             if ($params[1]) {
                 $this->method = strtolower($params[1]);
+                uset($params[0], $params[1]);
+                $input->setGet(array_values($params));
             } else {
                 $this->method = $this->getDefaultMethod();
             }
@@ -88,17 +90,18 @@ class FrontController
                 $this->method = strtolower($rc['controllers'][$this->controller]['method'][$this->method]);
             }
             if (isset($rc['controllers'][$this->controller]['to'])) {
-              $this->controller = strtolower($rc['controllers'][$this->controller]['to']);
+                $this->controller = strtolower($rc['controllers'][$this->controller]['to']);
             }
         }
+        $input->setPost($this->router->getPost());
+
         //TODO Fix it
         $f = $this->namespace . '\\' . ucfirst($this->controller);
         $newController = new $f();
         $newController->{$this->method}();
     }
 
-    public function getDefaultController()
-    {
+    public function getDefaultController() {
         $controller = \GF\App::getInstance()->getConfig()->app['default_controller'];
         if ($controller) {
             return strtolower($controller);
@@ -106,8 +109,7 @@ class FrontController
         return 'index';
     }
 
-    public function getDefaultMethod()
-    {
+    public function getDefaultMethod() {
         $method = \GF\App::getInstance()->getConfig()->app['default_method'];
         if ($method) {
             return strtolower($method);
@@ -115,11 +117,11 @@ class FrontController
         return 'index';
     }
 
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (self::$_instance == null) {
             self::$_instance = new FrontController();
         }
         return self::$_instance;
     }
+
 }
